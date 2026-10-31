@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Signalement;
+use Illuminate\Validation\Rule;
 
 class StoreSignalementRequest extends FormRequest
 {
@@ -26,9 +28,9 @@ class StoreSignalementRequest extends FormRequest
             'latitude'  => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
             'description' => ['required', 'string', 'max:200'],
-            'categorie' => ['required', 'in:Voirie,Ordures,Éclairage public,Caniveau/Inondation,Autre'],
-            'gravite'   => ['required', 'in:Faible,Moyenne,Critique'],
-            'quartier_id' => ['required', 'exists:quartiers,id'],
+            'categorie' => ['required', Rule::in(Signalement::CATEGORIES)],
+            'gravite'   => ['required', Rule::in(SIGNALEMENT::GRAVITE)],
+            'quartier_id' => ['required', 'integer', 'exists:quartiers,id'],
 
             'photo' => [
                 'required',
@@ -37,6 +39,18 @@ class StoreSignalementRequest extends FormRequest
                 'mimes:jpeg,jpg,png',
                 'max:1024',
             ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'photo.required' => 'La photo est obligatoire.',
+            'photo.image' => 'Le fichier envoyé doit être une image.',
+            'photo.max' => 'La photo ne doit pas dépasser 1 Mo.',
+            'categorie.in' => 'Catégorie invalide.',
+            'gravite.in' => 'Grativé invalide.',
+            'quartier_id.exists' => 'Ce quartier n’existe pas.',
         ];
     }
 }

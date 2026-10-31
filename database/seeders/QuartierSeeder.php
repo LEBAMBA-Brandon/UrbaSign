@@ -15,7 +15,7 @@ class QuartierSeeder extends Seeder
     public function run(): void
     {
         $parArrondissement = [
-            '1er' => ['Glace', 'Mont-Bouet', 'Charbonnage'],
+            '1er' => ['Glass', 'Mont-Bouet', 'Charbonnages'],
             '2e' => ['Nzeng-Ayong', 'PK8'],
             '3e' => ['Louis', 'Lalala'],
             '4e' => ['Akébé', 'Abilé'],

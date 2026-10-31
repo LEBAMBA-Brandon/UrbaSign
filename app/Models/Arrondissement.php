@@ -16,7 +16,7 @@ class Arrondissement extends Model
         return $this->belongsTo(Commune::class, 'commune_id');
     }
 
-    public function quartier(): HasMany
+    public function quartiers(): HasMany
     {
         return $this->hasMany(Quartier::class, 'arrondissement_id');
     }

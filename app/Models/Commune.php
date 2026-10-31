@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commune extends Model
 {
-    public function arrondissement(): HasMany
+    public function arrondissements(): HasMany
     {
         return $this->hasMany(Arrondissement::class, 'commune_id');
     }

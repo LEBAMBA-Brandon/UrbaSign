@@ -16,7 +16,7 @@ class Quartier extends Model
         return $this->belongsTo(Arrondissement::class, 'arrondissement_id');
     }
 
-    public function signalement(): HasMany
+    public function signalements(): HasMany
     {
         return $this->hasMany(Signalement::class, 'quartier_id');
     }
