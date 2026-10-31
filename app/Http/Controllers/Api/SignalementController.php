@@ -15,7 +15,13 @@ class SignalementController extends Controller
     //relation qu’on renvoie avec chaque signalement
     private const RELATIONS = ['auteur:id,nom,prenom', 'quartier:id,nom_quartier'];
 
-    // liste filtrable des signalements
+    /**
+     * Afficher les signalements
+     * 
+     * Affichage de l’ensemble des signalement
+     * avec option de filtrage
+     * @unauthenticated
+    */
     public function index(Request $request)
     {
         $filtres = $request->validate([
@@ -41,7 +47,14 @@ class SignalementController extends Controller
         return response()->json($signalements);
     }
 
-    //ajouté un signalement
+    /**
+     * Ajouter un signalement
+     * 
+     * Ajout d’un signalement
+     * en format-data avec la photo (1 Mo max)
+     * par un collecteur connecté
+     * et remplissage automatique de la date
+    */
     public function store(StoreSignalementRequest $request)
     {
         $path = $request->file('photo')->store('signalements', 'public');
@@ -56,7 +69,12 @@ class SignalementController extends Controller
         return response()->json($signalement->refresh()->load(self::RELATIONS), 201);
     }
 
-    //signalements des collecteurs
+    /**
+     * Mes signalements
+     * 
+     * Affichage des signalements
+     * d’un collecteur connecté
+    */
     public function mesSignalements(Request $request)
     {
         $signalements = $request->user()
@@ -68,13 +86,22 @@ class SignalementController extends Controller
         return response()->json($signalements);
     }
 
-    //affiché les infos d’un signalement
+    /**
+     * Afficher un signalement
+     * 
+     * Affichage en détail d’un signalement
+     * @unauthenticated
+    */
     public function show(Signalement $signalement)
     {
         return response()->json($signalement->load(self::RELATIONS));
     }
 
-    //modifié le statut
+    /**
+     * Modifier le statut d’un signalement
+     * 
+     * Modification du statut d’un signalement
+    */
     public function updateStatut(Request $request, Signalement $signalement)
     {
         $data = $request->validate([
@@ -86,7 +113,11 @@ class SignalementController extends Controller
         return response()->json($signalement->load(self::RELATIONS));
     }
 
-    //supprimé un signalement
+    /**
+     * Supprimer un signalement
+     * 
+     * Suppression d’un signalement
+    */
     public function destroy(Signalement $signalement)
     {
         Storage::disk('public')->delete($signalement->photo);

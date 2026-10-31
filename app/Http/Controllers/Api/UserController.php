@@ -9,13 +9,21 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    //affiché les users
+    /**
+     * Afficher les utilisateurs
+     * 
+     * Affichage de l’ensemble des utilisateurs
+    */
     public function index()
     {
         return response()->json(User::orderBy('nom')->get());
     }
 
-    //ajouté un user
+    /**
+     * Ajouter un utilisateur
+     * 
+     * Ajout d’un utilisateur
+    */
    public function store(Request $request)
     {
         $data = $request->validate([
@@ -23,7 +31,7 @@ class UserController extends Controller
             'prenom'   => ['required', 'string', 'max:100'],
             'email'    => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
-            'role'     => ['required', Rule::in(['admin', 'collecteur'])],
+            'role'     => ['required', Rule::in(['admin', 'utilisateur'])],
         ]);
 
         $user = User::create($data);
@@ -31,13 +39,21 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    //affiché les infos d’un user
+    /**
+     * Afficher un utilisateur
+     * 
+     * Affichage en détail d’un utilisateur
+    */
     public function show(User $user)
     {
         return response()->json($user);
     }
 
-    //modifié un user
+    /**
+     * Modifier un utilisateur
+     * 
+     * Modification des informations d’un utilisateur
+    */
     public function update(Request $request, User $user)
     {
         // "sometimes" = on ne valide que quand le champ est envoyé
@@ -46,7 +62,7 @@ class UserController extends Controller
             'prenom'   => ['sometimes', 'required', 'string', 'max:100'],
             'email'    => ['sometimes', 'required', 'email', Rule::unique('users', 'email')->ignore($user)],
             'password' => ['sometimes', 'required', 'string', 'min:6'],
-            'role'     => ['sometimes', 'required', Rule::in(['admin', 'collecteur'])],
+            'role'     => ['sometimes', 'required', Rule::in(['admin', 'utilisateur'])],
         ]);
 
         $user->update($data);
@@ -54,7 +70,11 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    //supprimé un user
+    /**
+     * Supprimer un utilisateur
+     * 
+     * Suppression d’un utilisateur
+    */
     public function destroy(Request $request, User $user)
     {
         if ($user->id === $request->user()->id) {

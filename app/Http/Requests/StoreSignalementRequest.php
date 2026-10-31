@@ -29,7 +29,7 @@ class StoreSignalementRequest extends FormRequest
             'longitude' => ['required', 'numeric', 'between:-180,180'],
             'description' => ['required', 'string', 'max:200'],
             'categorie' => ['required', Rule::in(Signalement::CATEGORIES)],
-            'gravite'   => ['required', Rule::in(SIGNALEMENT::GRAVITE)],
+            'gravite'   => ['required', Rule::in(Signalement::GRAVITES)],
             'quartier_id' => ['required', 'integer', 'exists:quartiers,id'],
 
             'photo' => [
@@ -49,7 +49,7 @@ class StoreSignalementRequest extends FormRequest
             'photo.image' => 'Le fichier envoyé doit être une image.',
             'photo.max' => 'La photo ne doit pas dépasser 1 Mo.',
             'categorie.in' => 'Catégorie invalide.',
-            'gravite.in' => 'Grativé invalide.',
+            'gravite.in' => 'Gravité invalide.',
             'quartier_id.exists' => 'Ce quartier n’existe pas.',
         ];
     }

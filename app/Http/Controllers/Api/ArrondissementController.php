@@ -8,7 +8,12 @@ use App\Models\Arrondissement;
 
 class ArrondissementController extends Controller
 {
-    //affiché les d’un arrondissement
+    /**
+     * Afficher les arrondissements
+     * 
+     * Affichage de l’ensemble des arrondissements
+     * @unauthenticated
+    */
     public function index(Request $request)
     {
         $arrondissements = Arrondissement::query()
@@ -20,7 +25,11 @@ class ArrondissementController extends Controller
         return response()->json($arrondissements);
     }
 
-    //ajouté un arrondissement
+    /**
+     * Ajouté un arrondissement
+     * 
+     * Ajout d’un arrondissement
+    */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -31,13 +40,22 @@ class ArrondissementController extends Controller
         return response()->json(Arrondissement::create($data), 201);
     }
 
-    //affiché les infos d’un arrondissement
+    /**
+     * Afficher un arrondissement
+     * 
+     * Détail d’un arrondissement
+     * @unauthenticated
+    */
     public function show(Arrondissement $arrondissement)
     {
         return response()->json($arrondissement->load(['commune', 'quartiers']));
     }
 
-    //modifié un arrondissement
+    /**
+     * Modifier un arrondissement
+     * 
+     * Modification des informations d’un arrondissement
+    */
     public function update(Request $request, Arrondissement $arrondissement)
     {
         $data = $request->validate([
@@ -50,7 +68,11 @@ class ArrondissementController extends Controller
         return response()->json($arrondissement);
     }
 
-    //supprimé un arrondissement
+    /**
+     * Supprimer un arrondissement
+     * 
+     * Suppression d’un arrondissement
+    */
     public function destroy(Arrondissement $arrondissement)
     {
         if ($arrondissement->quartiers()->exists()) {

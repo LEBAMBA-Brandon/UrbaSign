@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             ArrondissementSeeder::class,
             QuartierSeeder::class,
         ]);
-        
+
         // User::factory(10)->create();
 
         User::factory()->create([
@@ -30,5 +30,7 @@ class DatabaseSeeder extends Seeder
             'password' => '987654',
             'role' => 'admin',
         ]);
+        
+        \App\Models\Signalement::factory(30)->create();
     }
 }

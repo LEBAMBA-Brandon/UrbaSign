@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // connexion, renvoie un token
+    /**
+     * Connexion
+     * 
+     * Renvoie un token ensuite dans l’en-tête Authorization: Bearer <token>
+     * @unauthenticated
+    */
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -32,13 +37,21 @@ class AuthController extends Controller
         ]);
     }
 
-    // connexion
+    /**
+     * Reconnexion
+     * 
+     * Utilisateur connecté
+    */
     public function me(Request $request)
     {
         return response()->json($request->user());
     }
 
-    // supprime le token utilisé
+    /**
+     * Déconnexion
+     * 
+     * Suppression du token utilisé
+    */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

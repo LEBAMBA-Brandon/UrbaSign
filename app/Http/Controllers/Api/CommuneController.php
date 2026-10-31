@@ -9,13 +9,22 @@ use Illuminate\Validation\Rule;
 
 class CommuneController extends Controller
 {
-    //affiché les Commune
+    /**
+     * Afficher les communes
+     * 
+     * Affichage de l’ensemble des communes
+     * @unauthenticated
+    */
     public function index()
     {
-        return response()->json(Commune::orderBy('com_commune')->get());
+        return response()->json(Commune::orderBy('nom_commune')->get());
     }
 
-    //ajouté une commune
+    /**
+     * Ajouter une commune
+     * 
+     * Ajout d’une commune
+    */
     public function store(Request $request)
     {
         $commune = $request->validate([
@@ -25,24 +34,37 @@ class CommuneController extends Controller
         return response()->json(Commune::create($commune), 201);
     }
 
-    //affiché les infos d’une commune
+    /**
+     * Afficher une commune
+     * 
+     * Affichage d’une commune
+     * @unauthenticated
+    */
     public function show(Commune $commune)
     {
         return response()->json($commune->load('arrondissements'));
     }
 
-    //modifié une commune
+    /**
+     * Modifier une commune
+     * 
+     * Modification des informations d’une commune
+    */
     public function update(Request $request, Commune $commune)
     {
         $data = $request->validate([
-            'nom_commune' => ['required', 'string', 'max:100', Rule::unique('commune', 'com_commune')->ignore($commune)]
+            'nom_commune' => ['required', 'string', 'max:100', Rule::unique('communes', 'nom_commune')->ignore($commune)]
         ]);
         $commune->update($data);
 
         return response()->json($commune);
     }
 
-    //supprimé une commune
+    /**
+     * Supprimer une commune
+     * 
+     * Suppression d’une commune
+    */
     public function destroy(Commune $commune)
     {
         if ($commune->arrondissements()->exists()) {

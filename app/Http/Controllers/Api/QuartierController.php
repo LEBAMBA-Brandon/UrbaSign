@@ -8,7 +8,12 @@ use App\Models\Quartier;
 
 class QuartierController extends Controller
 {
-    //affiché les Quartier
+    /**
+     * Afficher les quartiers
+     * 
+     * Affichage de l’ensemble des quartiers
+     * @unauthenticated
+    */
     public function index(Request $request)
     {
         $quartiers = Quartier::query()
@@ -20,7 +25,11 @@ class QuartierController extends Controller
         return response()->json($quartiers);
     }
 
-    //ajouté un Quartier
+    /**
+     * Ajouter un quartier
+     * 
+     * Ajout d’un quartier
+    */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -31,13 +40,22 @@ class QuartierController extends Controller
         return response()->json(Quartier::create($data), 201);
     }
 
-    //affiché les infos d’un quartier
+    /**
+     * Afficher un quartier
+     * 
+     * Affichage de l’ensemble d’un quartier
+     * @unauthenticated
+    */
     public function show(Quartier $quartier)
     {
         return response()->json($quartier->load('arrondissement.commune'));
     }
 
-    //modifié un quartier
+    /**
+     * Modifier un quartier
+     * 
+     * Modification des informations d’un quartier
+    */
     public function update(Request $request, Quartier $quartier)
     {
         $data = $request->validate([
@@ -50,7 +68,11 @@ class QuartierController extends Controller
         return response()->json($quartier);
     }
 
-    //supprimé un quartier
+    /**
+     * Supprimer un quartier
+     * 
+     * Suppression d’un quartier
+    */
     public function destroy(Quartier $quartier)
     {
         if ($quartier->signalements()->exists()) {
