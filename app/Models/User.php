@@ -24,6 +24,9 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    const ROLES = ['admin', 'collecteur'];
+    
     protected function casts(): array
     {
         return [

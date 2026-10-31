@@ -31,7 +31,7 @@ class UserController extends Controller
             'prenom'   => ['required', 'string', 'max:100'],
             'email'    => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
-            'role'     => ['required', Rule::in(['admin', 'utilisateur'])],
+            'role'     => ['required', Rule::in(User::ROLES)],
         ]);
 
         $user = User::create($data);
@@ -62,7 +62,7 @@ class UserController extends Controller
             'prenom'   => ['sometimes', 'required', 'string', 'max:100'],
             'email'    => ['sometimes', 'required', 'email', Rule::unique('users', 'email')->ignore($user)],
             'password' => ['sometimes', 'required', 'string', 'min:6'],
-            'role'     => ['sometimes', 'required', Rule::in(['admin', 'utilisateur'])],
+            'role'     => ['sometimes', 'required', Rule::in(User::ROLES)],
         ]);
 
         $user->update($data);
