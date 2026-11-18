@@ -44,6 +44,7 @@ dependencies:
   latlong2: ^0.9.1
   flutter_localizations:
     sdk: flutter
+  material_ui: ^1.11.1
 
 dev_dependencies:
   flutter_test:
@@ -112,3 +113,7 @@ flutter_launcher_icons:
     image_path: "assets/images/icone_app.png"
     background_color: "#F9A825"
     theme_color: "#F9A825"
+  windows:
+    generate: true
+    image_path: "assets/images/icone_app.png"
+    icon_size: 256
