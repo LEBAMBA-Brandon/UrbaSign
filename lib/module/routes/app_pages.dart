@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:tala/data/models/coordonnees.dart';
+import 'package:tala/data/models/utilisateur.dart';
 import 'package:tala/module/binding/ecrans_binding.dart';
 import 'package:tala/module/middleware/auth_middleware.dart';
 import 'package:tala/module/middleware/id_valide_middleware.dart';
@@ -55,17 +57,26 @@ abstract final class AppPages {
         IdValideMiddleware('collecteur'),
       ],
     ),
-    GetPage(
+    GetPage<Utilisateur>(
       name: AppRoutes.modifierCollecteur,
-      page: () => const ModifierProfilScreen(), // même formulaire
+      page: () => const ModifierProfilScreen(),
       binding: ModifierProfilBinding(),
       middlewares: [
         AuthMiddleware(),
-        AdminMiddleware(), // un collecteur est renvoyé à l'accueil
-        IdValideMiddleware(
-          'collecteur',
-        ), // "/collecteur/abc/modifier" → introuvable
+        AdminMiddleware(),
+        IdValideMiddleware('collecteur'),
       ],
+    ),
+    // <Coordonnees> : cette page RENVOIE une position (Get.back(result: ...)).
+    // Sans ce type, GetX crée une route <dynamic> et Flutter refuse
+    // Get.toNamed<Coordonnees> (erreur de "subtype").
+    GetPage<Coordonnees>(
+      name: AppRoutes.choixPosition,
+      page: () => const ChoixPositionScreen(),
+      binding: ChoixPositionBinding(),
+      middlewares: [AuthMiddleware()],
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
     ),
     GetPage(
       name: AppRoutes.choixPosition,

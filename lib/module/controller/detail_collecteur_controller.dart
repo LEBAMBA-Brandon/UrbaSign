@@ -68,18 +68,23 @@ class DetailCollecteurController extends GetxController {
     }
   }
 
-  /// Ouvre le formulaire et affiche le résultat au retour.
+  /// Ouvre le formulaire de modification du collecteur
+  /// et affiche ses nouvelles infos au retour.
   Future<void> modifier() async {
     final actuel = collecteur.value;
     if (actuel == null) return;
+
+    // SANS <Utilisateur> : GetX crée toujours une route <dynamic>.
     // toNamed attend la fermeture du formulaire et récupère le
     // Get.back(result: modifie) — même principe que "Ajuster la position".
-    final modifie = await Get.toNamed<Utilisateur>(
+    final resultat = await Get.toNamed(
       AppRoutes.versModificationCollecteur(actuel.id),
       arguments: actuel,
     );
-    if (modifie == null) return; // Annuler ou retour
-    collecteur.value = modifie;
+
+    // null (Annuler / retour) ou autre chose qu'un Utilisateur → rien à faire.
+    if (resultat is! Utilisateur) return;
+    collecteur.value = resultat;
   }
 
   Future<void> ouvrirSignalement(Signalement signalement) async {

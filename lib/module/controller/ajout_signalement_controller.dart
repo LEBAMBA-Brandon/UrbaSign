@@ -129,15 +129,23 @@ class AjoutSignalementController extends GetxController {
   /// Ouvre la carte plein écran pour placer le point à la main.
   Future<void> ajusterPosition() async {
     final depart = brouillon.value.position ?? Coordonnees.libreville;
-    // `toNamed` attend que l'écran se ferme et récupère son résultat
-    // (`Get.back(result: ...)` dans ChoixPositionController).
-    final choisie = await Get.toNamed<Coordonnees>(
-      AppRoutes.choixPosition,
-      arguments: depart,
-    );
-    if (choisie == null || isClosed) return; // annulé
-    positionManuelle.value = true;
-    _modifier(brouillon.value.copyWith(position: () => choisie), 'latitude');
+    try {
+      // SANS <Coordonnees> : GetX crée toujours une route <dynamic>,
+      // et Flutter refuserait la conversion vers Route<Coordonnees>.
+      final resultat = await Get.toNamed(
+        AppRoutes.choixPosition,
+        arguments: depart,
+      );
+      // On vérifie le type nous-mêmes : null (Annuler / retour) ou
+      // autre chose qu'une Coordonnees → on ne change rien.
+      if (resultat is! Coordonnees || isClosed) return;
+
+      positionManuelle.value = true;
+      _modifier(brouillon.value.copyWith(position: () => resultat), 'latitude');
+    } catch (erreur, pile) {
+      debugPrint('Ajuster la position : $erreur\n$pile');
+      Notifications.erreur("Impossible d'ouvrir la carte : $erreur");
+    }
   }
 
   // =====================================================================
@@ -146,7 +154,8 @@ class AjoutSignalementController extends GetxController {
 
   Future<void> prendrePhoto() => _obtenirPhoto(_photos.prendrePhoto);
 
-  Future<void> choisirDansGalerie() => _obtenirPhoto(_photos.choisirDansGalerie);
+  Future<void> choisirDansGalerie() =>
+      _obtenirPhoto(_photos.choisirDansGalerie);
 
   void retirerPhoto() =>
       brouillon.value = brouillon.value.copyWith(photo: () => null);
@@ -184,10 +193,8 @@ class AjoutSignalementController extends GetxController {
     'categorie',
   );
 
-  void choisirGravite(Gravite gravite) => _modifier(
-    brouillon.value.copyWith(gravite: () => gravite),
-    'gravite',
-  );
+  void choisirGravite(Gravite gravite) =>
+      _modifier(brouillon.value.copyWith(gravite: () => gravite), 'gravite');
 
   void choisirQuartier(Quartier? quartier) => _modifier(
     brouillon.value.copyWith(quartier: () => quartier),
