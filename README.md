@@ -10,14 +10,14 @@ Projet de 2e année informatique — BI-TECH Services.
 
 | Élément | Choix |
 |---|---|
-| Framework | Laravel 13 (PHP 8.3) |
+| Framework | Laravel 13 (PHP 8.4) |
 | Base de données | PostgreSQL |
 | Authentification | Laravel Sanctum (token Bearer) |
 | Documentation | Swagger (généré par Scramble) + collection Postman |
 
 ## Prérequis
 
-- PHP 8.3 ou plus
+- PHP 8.4 ou plus
 - Composer
 - PostgreSQL
 
