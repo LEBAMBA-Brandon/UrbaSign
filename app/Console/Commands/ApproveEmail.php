@@ -6,7 +6,7 @@ use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
-#[Signature('app:approve-email')]
+#[Signature('app:approve-email {email : L’adresse e-mail à approuver}')]
 #[Description('Command description')]
 class ApproveEmail extends Command
 {
