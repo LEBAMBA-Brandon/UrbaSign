@@ -1,26 +1,20 @@
-import 'package:flutter/foundation.dart';
-
 /// Configuration de l'API : adresse du serveur, délais et routes.
 ///
-/// ⚠️ L'adresse dépend de l'endroit où tourne l'app :
-/// - Émulateur Android  → 10.0.2.2 (= le "localhost" du PC vu depuis l'émulateur)
-/// - Navigateur / PC    → localhost
-/// - Vrai téléphone     → l'IP du PC sur le Wi-Fi (ex : 192.168.1.10)
+/// Sans configuration personnalisée, l'application utilise l'API de production.
 ///
-/// Pour un vrai téléphone, on passe l'adresse au lancement, sans toucher au code :
-/// `flutter run --dart-define=API_URL=http://192.168.1.10:8000/api`
+/// Pour utiliser une API locale, passer son adresse au lancement :
+/// `flutter run --dart-define=API_URL=http://10.0.2.2:8000/api`
 abstract final class ApiConfig {
+  static const String _urlProduction =
+      'https://urbasign-production.up.railway.app/api';
+
   /// Adresse passée avec `--dart-define=API_URL=...` (vide si non fournie).
   static const String _urlPersonnalisee = String.fromEnvironment('API_URL');
 
   /// Adresse de base de l'API (sans "/" à la fin).
   static String get baseUrl {
     if (_urlPersonnalisee.isNotEmpty) return _urlPersonnalisee;
-    if (kIsWeb) return 'http://localhost:8000/api';
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:8000/api';
-    }
-    return 'http://localhost:8000/api';
+    return _urlProduction;
   }
 
   /// Temps max pour établir la connexion avec le serveur.

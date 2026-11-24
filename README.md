@@ -122,13 +122,15 @@ php artisan serve --host=0.0.0.0 --port=8000
 
 ### 3. Lancer l'application
 
-L'adresse de l'API dépend de l'appareil utilisé :
+Par défaut, l'application utilise l'API de production Railway. Pour tester avec
+une API locale, passe une adresse personnalisée :
 
 | Appareil          | Commande | Adresse utilisée |
 | ----------------- | -------- | ---------------- |
-| Émulateur Android | `flutter run` | `http://10.0.2.2:8000/api` (automatique) |
-| Navigateur        | `flutter run -d chrome` | `http://localhost:8000/api` (automatique) |
-| Vrai téléphone    | `flutter run --dart-define=API_URL=http://IP_DU_PC:8000/api` | celle que tu donnes |
+| Tous les appareils | `flutter run` | API de production Railway (automatique) |
+| Émulateur Android (API locale) | `flutter run --dart-define=API_URL=http://10.0.2.2:8000/api` | API locale du PC |
+| Navigateur / PC (API locale) | `flutter run -d chrome --dart-define=API_URL=http://localhost:8000/api` | API locale du PC |
+| Vrai téléphone (API locale) | `flutter run --dart-define=API_URL=http://IP_DU_PC:8000/api` | IP locale du PC |
 
 Pour un vrai téléphone :
 1. Mets le téléphone et le PC sur **le même Wi-Fi**.
