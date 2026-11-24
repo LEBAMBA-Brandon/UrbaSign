@@ -20,7 +20,7 @@ jobs:
       - name: Installer Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.44.0"
+          flutter-version: "3.50.1"
           channel: stable
           cache: true
 
@@ -30,6 +30,16 @@ jobs:
       - name: Analyser le code
         run: flutter analyze --no-fatal-infos
 
+      - name: Construire l'application Web
+        run: flutter build web
+
+      - name: Publier le build Web comme artefact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-${{ github.ref_name }}
+          path: build/web/
+
       - name: Conserver l’APK comme artifact
         uses: actions/upload-artifact@v4
         with:
@@ -37,7 +47,7 @@ jobs:
           path: mono/build/app/outputs/flutter-apk/app-release.apk
 
       - name: Construire l’APP Web
-        working-directory: mono
+        working-directory: tala
         run: flutter build web
 
       - name: Conserver l’APP Web comme artifact
