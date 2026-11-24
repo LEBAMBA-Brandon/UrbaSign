@@ -136,9 +136,10 @@ php artisan serve --host=0.0.0.0 --port=8000
 
 | Appareil | Commande | Adresse de l'API |
 | -------- | -------- | ---------------- |
-| Émulateur Android | `flutter run` | `http://10.0.2.2:8000/api` (automatique) |
-| Windows | `flutter run -d windows` | `http://localhost:8000/api` (automatique) |
-| Vrai téléphone | `flutter run --dart-define=API_URL=http://IP_DU_PC:8000/api` | celle que tu donnes |
+| Tous les appareils | `flutter run` | API de production Railway (automatique) |
+| Émulateur Android (API locale) | `flutter run --dart-define=API_URL=http://10.0.2.2:8000/api` | API locale du PC |
+| Windows/navigateur (API locale) | `flutter run --dart-define=API_URL=http://localhost:8000/api` | API locale du PC |
+| Vrai téléphone (API locale) | `flutter run --dart-define=API_URL=http://IP_DU_PC:8000/api` | IP locale du PC |
 
 Pour un vrai téléphone : même Wi-Fi que le PC, IP du PC avec `ipconfig` (ligne « Adresse IPv4 »).
 
@@ -294,9 +295,11 @@ dart run flutter_launcher_icons
 ## Générer l'APK
 
 ```bash
-flutter build apk --release --dart-define=API_URL=http://IP_OU_DOMAINE:8000/api
+flutter build apk --release
 ```
 
 Le fichier est dans `build/app/outputs/flutter-apk/app-release.apk`.
 
-> L'adresse de l'API est figée dans l'APK au moment du build : refais l'APK si l'adresse change.
+L'API de production Railway est utilisée par défaut. Pour compiler l'APK avec
+une autre adresse, ajoute
+`--dart-define=API_URL=https://votre-domaine/api`.
