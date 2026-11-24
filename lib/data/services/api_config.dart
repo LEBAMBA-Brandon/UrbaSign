@@ -16,11 +16,11 @@ abstract final class ApiConfig {
   /// Adresse de base de l'API (sans "/" à la fin).
   static String get baseUrl {
     if (_urlPersonnalisee.isNotEmpty) return _urlPersonnalisee;
-    if (kIsWeb) return 'http://localhost:8000/api';
+    if (kIsWeb) return 'http://urbasign-production.up.railway.app/api';
     if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:8000/api';
+      return 'http://urbasign-production.up.railway.app/api';
     }
-    return 'http://localhost:8000/api';
+    return 'http://urbasign-production.up.railway.app/api';
   }
 
   /// Temps max pour établir la connexion avec le serveur.
