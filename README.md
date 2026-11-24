@@ -78,6 +78,25 @@ L'API est disponible sur `http://localhost:8000/api`.
 
 > Pour le collecteur nous nous l’avons directement créer depuis le test de l’API et non en dure.
 
+### Créer le premier administrateur en production
+
+Le compte ci-dessus vient du seeder de développement : il n'est pas forcément
+présent dans la base Railway. En production, ouvre le shell du service API
+Railway et lance :
+
+```bash
+php artisan app:create-admin
+```
+
+La commande demande le nom, le prénom, l'adresse e-mail et le mot de passe de
+façon interactive. Le mot de passe est masqué et doit contenir au moins
+12 caractères. Elle crée un compte administrateur dans la base configurée pour
+le service Railway.
+
+Ne lance pas `php artisan migrate:fresh --seed` en production : `migrate:fresh`
+efface les tables et les données existantes, et le seeder crée un compte de test
+avec un mot de passe connu.
+
 ## Documentation de l'API
 
 - **Swagger** : `http://localhost:8000/docs/api` (serveur lancé, `APP_ENV=local`)
